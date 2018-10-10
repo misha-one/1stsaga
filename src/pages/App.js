@@ -8,7 +8,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reducers from "../store/reducers";
 import rootSaga from "../store/sagas";
 
-import { Home } from "../pages";
+import Home from "../pages/Home/Home";
+import SelectedPicture from "../pages/SelectedPicture/SelectedPicture";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -34,10 +35,19 @@ class App extends Component {
 
     return (
       <Provider store={store}>
-        <Home />
+      <BrowserRouter>
+       <div>
+         <Switch>
+         <Route path="/:id" component={ SelectedPicture }/>
+         <Route path="/" component={ Home }/>
+         </Switch>
+      </div>
+    </BrowserRouter>
       </Provider>
     );
   }
 }
+
+
 
 export default App;

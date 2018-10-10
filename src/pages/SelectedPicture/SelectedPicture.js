@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 //import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { aGetPhotos } from "../../store/actions";
-import { Block } from "../../components";
+import { aGetPhoto } from "../../store/actions";
+import { SelectedBlock } from "../../components";
 
 class Home extends Component {
   componentWillMount() {
-    this.props.aGetPhotos();
+    //console.log('тут работает: '+this.props.match.params.id)
+    const id = this.props.match.params.id;
+    this.props.aGetPhoto(id);
   }
 
   render() {
-    const { photos } = this.props;
-    console.log(photos);
+    const { photo } = this.props;
+    console.log(photo);
 
-
-    if (photos.error) {
+    if (photo.error) {
       return (
         <div>
           <h6>error</h6>
@@ -26,14 +27,16 @@ class Home extends Component {
     return (
       <div>
         <div className="h1name">
-          <h1>Photos</h1>
+          <h1>Selected Photo</h1>
         </div>
-        {photos.loading ? (
+
+        {photo.loading ? (
           <div>loading...</div>
-        ) : photos.data ? (
-          photos.data.map(photo => {
-            return <Block data={photo} />;
-          })
+        ) : photo.data ? (
+
+          <SelectedBlock data={photo.data} />
+
+
         ) : (
           <h3>Not photos</h3>
         )}
@@ -44,11 +47,11 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    photos: state.photos
+    photo: state.photo
   };
 };
 
 export default connect(
   mapStateToProps,
-  { aGetPhotos }
+  { aGetPhoto }
 )(Home);
